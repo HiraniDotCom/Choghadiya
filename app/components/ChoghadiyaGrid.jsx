@@ -10,32 +10,32 @@ import { DateTime } from "luxon";
 
 const STATUS_STYLES = {
     "Good (Amrit)": {
-        bg: "bg-green-50 text-green-700 border-green-200",
-        badge: "bg-green-700 text-white",
+        bg: "bg-green-500 text-white border-green-200",
+        badge: "bg-white text-black",
     },
     "Good (Excellent)": {
-        bg: "bg-green-50 text-green-500 border-green-200",
-        badge: "bg-green-500 text-white",
+        bg: "bg-green-500 text-white border-green-200",
+        badge: "bg-white text-black",
     },
     "Good (Gain)": {
-        bg: "bg-green-50 text-green-300 border-green-200",
-        badge: "bg-green-300 text-white",
+        bg: "bg-green-500 text-white border-green-200",
+        badge: "bg-white text-black",
     },
     "Neutral (Medium)": {
-        bg: "bg-blue-50 text-blue-700 border-blue-200",
-        badge: "bg-blue-500 text-white",
+        bg: "bg-blue-500 text-white border-blue-200",
+        badge: "bg-orange-500 text-white",
     },
     "Bad (Anxiety)": {
-        bg: "bg-orange-50 text-orange-800 border-orange-200",
-        badge: "bg-orange-800 text-white",
+        bg: "bg-red-500 text-white border-orange-200",
+        badge: "bg-black text-white",
     },
     "Bad (Loss)": {
-        bg: "bg-rose-50 text-rose-700 border-rose-200",
-        badge: "bg-rose-500 text-white",
+        bg: "bg-red-500 text-white border-rose-200",
+        badge: "bg-black text-white",
     },
     "Bad (Disease)": {
-        bg: "bg-red-50 text-red-700 border-red-200",
-        badge: "bg-red-500 text-white",
+        bg: "bg-red-500 text-white border-red-200",
+        badge: "bg-black text-white",
     },
 };
 
@@ -367,36 +367,32 @@ export default function ChoghadiyaGrid() {
                                     key={item.number}
                                     className={`p-4 rounded-xl border flex flex-col justify-between transition-all shadow-xs relative overflow-hidden ${styles.bg} ${
                                         isCurrent
-                                            ? "ring-4 ring-blue-500 scale-[1.03] shadow-md z-10 border-transparent"
-                                            : "opacity-90 hover:opacity-100"
+                                            ? "ring-4 ring-blue-500 shadow-md z-10 border-transparent hover:scale-[1.05]"
+                                            : "hover:scale-[1.05]"
                                     }`}
                                 >
-                                    {/* Animated Top border bar for active cards */}
-                                    {isCurrent && (
-                                        <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-blue-500 via-indigo-500 to-cyan-500 animate-pulse" />
-                                    )}
-
                                     <div className="mb-4">
                                         <div className="flex items-center justify-between gap-2 mb-2">
                                             <span className="text-[10px] font-bold tracking-wider uppercase opacity-60">
                                                 Slot {item.number}
                                             </span>
-                                            {isCurrent ? (
-                                                <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-blue-600 text-white tracking-widest uppercase animate-pulse flex items-center gap-1">
+                                            <span
+                                                className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${styles.badge}`}
+                                            >
+                                                {item.nature.split(" ")[0]}
+                                            </span>
+                                        </div>
+                                        <div className="text-2xl font-black tracking-tight mb-1 flex items-center justify-between w-full gap-4">
+                                            <span>{item.name}</span>
+
+                                            {isCurrent && (
+                                                <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-blue-600 text-white tracking-widest uppercase animate-pulse flex items-center gap-1 whitespace-nowrap">
                                                     <span className="h-1.5 w-1.5 rounded-full bg-white block animate-ping" />
                                                     LIVE NOW
                                                 </span>
-                                            ) : (
-                                                <span
-                                                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${styles.badge}`}
-                                                >
-                                                    {item.nature.split(" ")[0]}
-                                                </span>
                                             )}
                                         </div>
-                                        <div className="text-2xl font-black tracking-tight mb-1">
-                                            {item.name}
-                                        </div>
+
                                         <div className="text-xs opacity-75 font-medium">
                                             {item.nature.includes("(")
                                                 ? item.nature.substring(
@@ -406,7 +402,7 @@ export default function ChoghadiyaGrid() {
                                         </div>
                                     </div>
                                     <div className="text-xs font-mono font-bold tracking-tight border-t border-current/10 pt-2 opacity-80">
-                                        {item.startTime} - {item.endTime}
+                                        {item.startTime} to {item.endTime}
                                     </div>
                                 </div>
                             );
