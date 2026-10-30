@@ -69,3 +69,7 @@ Ensure you have **Node.js (v18.x or higher)** and npm/yarn installed locally.
 
 ### 1. Choghadiya Intervals
 Instead of relying on fixed 90-minute blocks, this app dynamically divides the local daytime (sunrise to sunset) and nighttime (sunset to next sunrise) into **8 equal segments**. The sequence depends on the weekday of the specific coordinates provided.
+
+## Screenshot
+
+<img width="688" height="609" alt="choghadiya-app" src="https://github.com/user-attachments/assets/b49ac4d9-e564-4605-ad3c-85a90171859f" />
