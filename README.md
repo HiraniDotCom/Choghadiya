@@ -1,6 +1,6 @@
 # ☀️ Global Choghadiya Dashboard
 
-A modern, high-precision web application built to calculate and display **Hindu Choghadiya timelines** for any coordinate or city worldwide. By combining astronomical computations with geometric bisection algorithms, the application maps local solar cycles to precisely identify auspicious and inauspicious planetary hours.
+A modern, high-precision web application built to calculate and display **Hindu Choghadiya timelines** for any coordinate or city worldwide. By combining astronomical computations from "astonomy-engine' to calculate sun, moon and earth positions with day-time/night-time values fron 'suncalc', the application maps local solar cycles to precisely identify auspicious and inauspicious planetary hours.
 
 ---
 
