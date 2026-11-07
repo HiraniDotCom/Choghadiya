@@ -96,6 +96,8 @@ function calculateChoghadiyaIntervals(startTime, endTime, sequence) {
             nature: CHOGHADIYA_NATURE[name],
             startTime: start.toFormat("hh:mm a"),
             endTime: end.toFormat("hh:mm a"),
+            rawStart: start.toISO(),
+            rawEnd: end.toISO()
         });
     }
     return intervals;
@@ -104,6 +106,7 @@ function calculateChoghadiyaIntervals(startTime, endTime, sequence) {
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const address = searchParams.get("address") || searchParams.get("city");
+    const dateParam = searchParams.get("date"); // Optional query param layout format (YYYY-MM-DD)
 
     if (!address) {
         return NextResponse.json(
@@ -121,11 +124,26 @@ export async function GET(request) {
             );
 
         const timezone = await getTimezone(location.lat, location.lon);
-        const localNow = DateTime.now().setZone(timezone);
-        const dayOfWeek = localNow.weekday % 7;
+        
+        // Target calculation baseline mapping setup
+        let localTarget = DateTime.now().setZone(timezone);
+        
+        if (dateParam) {
+            const parsedCustomDate = DateTime.fromISO(dateParam, { zone: timezone });
+            if (parsedCustomDate.isValid) {
+                // Preserving current calculation clock hours for precision setups if navigating safely
+                localTarget = parsedCustomDate.set({
+                    hour: localTarget.hour,
+                    minute: localTarget.minute,
+                    second: localTarget.second
+                });
+            }
+        }
+
+        const dayOfWeek = localTarget.weekday % 7;
 
         const sunTimes = SunCalc.getSunTimes(
-            localNow.toJSDate(),
+            localTarget.toJSDate(),
             location.lat,
             location.lon,
         );
@@ -149,7 +167,7 @@ export async function GET(request) {
         ).setZone(timezone);
 
         const tomorrowSunTimes = SunCalc.getSunTimes(
-            localNow.plus({ days: 1 }).toJSDate(),
+            localTarget.plus({ days: 1 }).toJSDate(),
             location.lat,
             location.lon,
         );
@@ -183,7 +201,7 @@ export async function GET(request) {
                     longitude: location.lon,
                 },
                 timezone,
-                localTime: localNow.toFormat("yyyy-MM-dd hh:mm a"),
+                localTime: localTarget.toFormat("yyyy-MM-dd hh:mm a"),
                 sunrise: sunrise.toFormat("hh:mm a"),
                 sunset: sunset.toFormat("hh:mm a"),
             },
